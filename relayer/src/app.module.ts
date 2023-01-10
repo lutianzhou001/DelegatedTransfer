@@ -6,7 +6,6 @@ import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ethers } from 'ethers';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { SignatureController } from './sign/signature.controller';
 import { SignatureService } from './sign/signature.service';
 import { SignatureSchema } from './sign/schema/signature.schema';
@@ -34,10 +33,6 @@ import { SignatureSchema } from './sign/schema/signature.schema';
         ]),
     ],
     controllers: [AppController, SignatureController],
-    providers: [
-        AppService,
-        SignatureService,
-        ethers.providers.JsonRpcProvider,
-    ],
+    providers: [AppService, SignatureService, ethers.providers.JsonRpcProvider],
 })
 export class AppModule {}
