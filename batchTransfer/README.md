@@ -5,7 +5,7 @@
 # start the hardhat node
 npx hardhat node
 # deploy the smart contract
-npx hardhat run scripts/deploy.tx --network localhost
+npx hardhat run scripts/deploy.ts --network localhost
 # start the "frontend"
 npx hardhat run scripts/operations/index.ts --network localhost
 ```
