@@ -1,10 +1,7 @@
 import * as readline from 'readline';
 import hre, { ethers, config } from 'hardhat';
-import { toBN } from '../util/web3utils';
 import inquirer from 'inquirer';
 import * as dotenv from 'dotenv';
-const sigUtil = require('eth-sig-util');
-import chalk from 'chalk';
 import { signTypedData, SignTypedDataVersion } from '@metamask/eth-sig-util';
 const request = require('request');
 

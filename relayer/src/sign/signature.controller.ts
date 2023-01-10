@@ -33,16 +33,4 @@ export class SignatureController {
             return new ResponseError('BATCH_ERROR', (e as Error).message);
         }
     }
-
-    @Post('mock')
-    async mock(): Promise<IResponse> {
-        try {
-            return new ResponseSuccess(
-                'SIGNATURE_SUCCESS',
-                await this.signatureService.mock(),
-            );
-        } catch (e) {
-            return new ResponseError('SIGNATURE_ERROR', (e as Error).message);
-        }
-    }
 }

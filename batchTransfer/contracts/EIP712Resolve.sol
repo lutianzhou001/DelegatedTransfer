@@ -19,8 +19,6 @@ contract EIP712Resolve is IEIP712Resolve {
     }
 
     function executeSetIfSignatureMatch(EIP712ResolveParams memory params) public override {
-        require(block.timestamp < params.deadline, "Signed transaction expired");
-
         uint chainId;
         assembly {
             chainId := chainid()
@@ -50,8 +48,15 @@ contract EIP712Resolve is IEIP712Resolve {
 
         bytes32 hash = keccak256(abi.encodePacked("\x19\x01", eip712DomainHash, hashStruct));
         address signer = ecrecover(hash, params.v, params.r, params.s);
-        require(signer == params.sender, "EIP712Resolve: invalid signature");
-        require(signer != address(0), "ECDSA: invalid signature");
-        IERC20(params.token).transferFrom(params.sender, params.x, params.amount);
+        if (signer == params.sender && signer != address(0) && block.timestamp < params.deadline) {
+            (bool success, ) = params.token.call(abi.encodeWithSignature("transferFrom(address,address,uint256)", params.sender, params.x, params.amount));
+            if (success) {
+                IERC20(params.token).transferFrom(params.sender, params.x, params.amount);
+                emit Transfer(params.sender, params.x, params.token, params.amount, params.deadline);
+            }
+        }
     }
+
+    // EVENTS
+    event Transfer(address indexed sender, address indexed x, address indexed token, uint amount, uint deadline);
 }

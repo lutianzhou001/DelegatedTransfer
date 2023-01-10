@@ -37,6 +37,9 @@ export class Signature {
 
     @Prop()
     deadline: number;
+
+    @Prop()
+    isSuccess: boolean;
 }
 
 export const SignatureSchema = SchemaFactory.createForClass(Signature);
