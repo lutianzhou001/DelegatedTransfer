@@ -18,7 +18,7 @@ $ docker-compose up -d
 # Then start the app.
 $ yarn start
 ```
-## doc at
+## Doc at
 ```
 http://127.0.0.1:8082/api/#/
 ```
