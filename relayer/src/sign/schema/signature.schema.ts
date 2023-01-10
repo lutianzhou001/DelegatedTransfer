@@ -36,6 +36,9 @@ export class Signature {
     amount: string;
 
     @Prop()
+    nonce: string;
+
+    @Prop()
     deadline: number;
 
     @Prop()

@@ -56,6 +56,7 @@ export class SignatureService {
                 { name: 'x', type: 'address' },
                 { name: 'token', type: 'address' },
                 { name: 'amount', type: 'uint' },
+                { name: 'nonce', type: 'uint' },
                 { name: 'deadline', type: 'uint' },
             ],
         };
@@ -71,6 +72,7 @@ export class SignatureService {
             x: add_signatureDto.x,
             token: add_signatureDto.token,
             amount: add_signatureDto.amount,
+            nonce: add_signatureDto.nonce,
             deadline: add_signatureDto.deadline,
         };
 
@@ -128,6 +130,7 @@ export class SignatureService {
                 unexecutedSignatures[i].deadline,
                 unexecutedSignatures[i].x,
                 unexecutedSignatures[i].amount,
+                unexecutedSignatures[i].nonce,
                 unexecutedSignatures[i].token,
             ]);
             const estimatedGas =

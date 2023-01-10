@@ -27,6 +27,11 @@ export class Add_signatureDto {
     @ApiProperty()
     readonly amount: string;
 
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty()
+    readonly nonce: string;
+
     @IsNumber()
     @IsNotEmpty()
     @ApiProperty()
