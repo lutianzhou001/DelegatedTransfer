@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BigNumber, Contract, ethers, providers } from 'ethers';
-import { signTypedData, SignTypedDataVersion } from '@metamask/eth-sig-util';
 import { transferERC20ABI } from '../abis/transferERC20.abi';
-import { ZERO_ADDRESS } from '../common/utils/web3utils';
 import { Model } from 'mongoose';
 import { Add_signatureDto } from './dto/add_signature.dto';
 import { SignatureDocument } from './schema/signature.schema';
@@ -106,7 +104,7 @@ export class SignatureService {
         }
     }
 
-    @Cron(CronExpression.EVERY_SECOND)
+    @Cron(CronExpression.EVERY_10_MINUTES)
     async batch(): Promise<any> {
         const unexecutedSignatures = await this.signatureModel.find({
             executed: undefined,
