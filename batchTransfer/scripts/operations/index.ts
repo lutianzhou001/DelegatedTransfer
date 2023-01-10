@@ -3,6 +3,8 @@ import hre, { ethers, config } from 'hardhat';
 import inquirer from 'inquirer';
 import * as dotenv from 'dotenv';
 import { signTypedData, SignTypedDataVersion } from '@metamask/eth-sig-util';
+import {fromBN} from "../util/web3utils";
+import {BigNumber} from "ethers";
 const request = require('request');
 
 const rl = readline.createInterface({
@@ -51,9 +53,14 @@ async function main() {
         String(process.env.EIP712Resolve),
     );
 
-    const _testToken = await hre.ethers.getContractFactory('TestERC20');
-    const testToken = await _testToken.attach(
-        String(process.env.TestERC20),
+    const _testTokenA = await hre.ethers.getContractFactory('TestERC20');
+    const testTokenA = await _testTokenA.attach(
+        String(process.env.TestERC20A),
+    );
+
+    const _testTokenB = await hre.ethers.getContractFactory('TestERC20');
+    const testTokenB = await _testTokenB.attach(
+        String(process.env.TestERC20B),
     );
 
     let currentSigner = await signers[0];
@@ -104,7 +111,7 @@ async function main() {
                     type: 'list',
                     name: 'address',
                     message: 'which token do you want to transfer?',
-                    choices: [testToken.address],
+                    choices: [testTokenA.address, testTokenB.address],
                 });
                 const destinationAddresses = [];
                 const signers_ = await hre.ethers.getSigners();
@@ -134,6 +141,7 @@ async function main() {
                         { name: 'x', type: 'address' },
                         { name: 'token', type: 'address' },
                         { name: 'amount', type: 'uint' },
+                        { name: 'nonce', type: 'uint' },
                         { name: 'deadline', type: 'uint' },
                     ],
                 };
@@ -144,13 +152,16 @@ async function main() {
                     chainId: 31337,
                     verifyingContract: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
                 };
-                const milsec_deadline = Date.now() / 1000 + 100;
+                const nonce = await eip712Resolve.connect(currentSigner).getNonce();
+                const milsec_deadline = Date.now() / 1000 + 1000;
                 const deadline = parseInt(String(milsec_deadline).slice(0, 10));
+
                 const message = {
                     sender: await currentSigner.getAddress(),
                     x: transferTo.address,
                     token: token.address,
                     amount: amount.amount,
+                    nonce: String(Number(nonce)),
                     deadline: deadline,
                 }
                 const signature = signTypedData({
@@ -168,6 +179,7 @@ async function main() {
                     x: transferTo.address,
                     token: token.address,
                     amount: amount.amount,
+                    nonce: String(Number(nonce)),
                     deadline: deadline,
                     signature: signature
                 }

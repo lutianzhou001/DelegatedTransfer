@@ -10,8 +10,11 @@ interface IEIP712Resolve {
         uint256 deadline;
         address x;
         uint256 amount;
+        uint256 nonce;
         address token;
     }
+
+    function getNonce() view external returns (uint);
 
     function executeSetIfSignatureMatch(EIP712ResolveParams memory params) external;
 
