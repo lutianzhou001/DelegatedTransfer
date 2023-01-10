@@ -1,13 +1,21 @@
-# Sample Hardhat Project
+# On-chain EIP712 verifier and batcher
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
-
+## Run
 ```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
+# start the hardhat node
 npx hardhat node
-npx hardhat run scripts/deploy.ts
+# deploy the smart contract
+npx hardhat run scripts/deploy.tx --network localhost
+# start the "frontend"
+npx hardhat run scripts/operations/index.ts --network localhost
 ```
+
+## function1: Generate EIP712 signature and send to the relayer
+first choose the token you want to transfer.
+second choose the address you want to send to.
+at last choose the amount you want to transfer.
+
+then the program will sign a EIP for you and send it to the relayer.
+
+## function2: Choose the signer
+choose the signer(there are 20 default signers in the program) and choose which signer you want to use.

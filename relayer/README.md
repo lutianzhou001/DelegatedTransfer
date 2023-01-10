@@ -13,7 +13,9 @@ $ yarn
 ## Running the app
 
 ```bash
-# development
+# Start the docker first.
+$ docker-compose up -d
+# Then start the app.
 $ yarn start
 ```
 ## doc at
